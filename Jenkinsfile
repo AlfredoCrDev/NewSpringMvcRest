@@ -18,8 +18,8 @@ pipeline {
             }
         }
         post {
-            success {
-                slackSend color: "#439FE0", message: "Build Started!!!!"
+            failure {
+                slackSend failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
             }
         }
     }
