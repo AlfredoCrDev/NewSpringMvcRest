@@ -19,7 +19,7 @@ pipeline {
         }
         post {
             success {
-                slackSend channel: '#fundamentos-de-devops', color: '#6EAB00', message: 'Hasta que por Fin Funciono xD ', teamDomain: 'sustantivagrupo', tokenCredentialId: 'SecretSlack', username: 'Alfredo'
+                slackSend channel: 'fundamentos-de-devops', color: '#33B5FF', message: 'Prueba de Nuevo Mensaje', teamDomain: 'sustantivagrupo', tokenCredentialId: '7645404f-1a5f-42d1-93e6-6b65f095d628', username: 'AlfredoCrDev'
             }
             failure {
                 slackSend "Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
