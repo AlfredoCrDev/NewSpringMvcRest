@@ -19,7 +19,7 @@ pipeline {
         }
         post {
             success {
-                slackSend color: "#439FE0", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+                slackSend color: "#439FE0", message: "Build Started!!!!"
             }
         }
     }
