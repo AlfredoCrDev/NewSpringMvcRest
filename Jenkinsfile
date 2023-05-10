@@ -2,7 +2,7 @@ pipeline {
     agent any
         stages {
           stage('Build') {
-            steps {
+            steps { 
                 sh 'mvn -B package'
             }
         }
@@ -11,11 +11,11 @@ pipeline {
                 SCANNER_HOME = tool 'SonarQube Conexion'
             }
             steps {
-              withSonarQubeEnv(credentialsId: 'token_sonar_admin', installationName: 'SonarInDocker') {
+              withSonarQubeEnv(credentialsId: 'SonarCnx', installationName: 'SonarInDocker') {
               sh '''$SCANNER_HOME/bin/sonar-scanner \
-            -Dsonar.projectKey=pruebadevops \
-            -Dsonar.projectName=pruebadevops \
-            -Dsonar.sources=src/ \
+            -Dsonar.projectKey=devopapp \
+            -Dsonar.projectName=devopapp \
+            -Dsonar.sources=./ \
             -Dsonar.java.binaries=target/classes/ \
             -Dsonar.exclusions=src/test/java/****/*.java \
             -Dsonar.projectVersion=${BUILD_NUMBER}-${GIT_COMMIT_SHORT}'''
@@ -25,7 +25,7 @@ pipeline {
         stage("Publish to Nexus Repository Manager") {
             steps {
                 script {
-                    pom = readMavenPom file: "pom.xml";
+                    def pom = readMavenPom file: "pom.xml";
                     filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
                     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                     artifactPath = filesByGlob[0].path;
@@ -35,11 +35,11 @@ pipeline {
                         nexusArtifactUploader(
                             nexusVersion: "nexus3",
                             protocol: "http",
-                            nexusUrl: "localhost:8081",
+                            nexusUrl: "34.69.44.55:8081",
                             groupId: pom.groupId,
                             version: pom.version,
-                            repository: "Reporepo",
-                            credentialsId: "NexusCredentials",
+                            repository: "repomvndevops",
+                            credentialsId: "nexusgoo",
                             artifacts: [
                                 [artifactId: pom.artifactId,
                                         classifier: '',
@@ -54,17 +54,11 @@ pipeline {
             }
             }
      }
-    post{
-        failure{
-            slackSend( channel: "#fundamentos-de-devops", token: "slack_webhook token", color: "good", message: "${custom_msg()}")
-        }
+
+post {
+    always {
+        slackSend(channel: "#fundamentos-de-devops", token: "tokenslack", message: "La ejecución del Pipeline ${BUILD_NUMBER} ha finalizado con estado ${currentBuild.result}, mas informacion en ${RUN_DISPLAY_URL} ")
     }
 }
-   def custom_msg()
-        {
-        def JENKINS_URL= "localhost:8080"
-        def JOB_NAME = env.JOB_NAME
-        def BUILD_ID= env.BUILD_ID
-        def JENKINS_LOG= " FAILED: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"
-        return 
+
 }
