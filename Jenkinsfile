@@ -13,8 +13,8 @@ pipeline {
             steps {
               withSonarQubeEnv(credentialsId: 'token_sonar_admin', installationName: 'SonarInDocker') {
               sh '''$SCANNER_HOME/bin/sonar-scanner \
-            -Dsonar.projectKey=projectKey \
-            -Dsonar.projectName=projectName \
+            -Dsonar.projectKey=pruebadevops \
+            -Dsonar.projectName=pruebadevops \
             -Dsonar.sources=src/ \
             -Dsonar.java.binaries=target/classes/ \
             -Dsonar.exclusions=src/test/java/****/*.java \
