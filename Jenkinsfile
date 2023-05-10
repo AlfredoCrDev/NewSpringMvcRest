@@ -39,7 +39,7 @@ pipeline {
                             groupId: pom.groupId,
                             version: pom.version,
                             repository: "repomvndevops",
-                            credentialsId: "nexusgoo",
+                            credentialsId: "nexusCredencial",
                             artifacts: [
                                 [artifactId: pom.artifactId,
                                         classifier: '',
