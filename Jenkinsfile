@@ -33,9 +33,9 @@ pipeline {
                     if(artifactExists) {
                         echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
                         nexusArtifactUploader(
-                            nexusVersion: "nexus3",
+                            nexusVersion: "nexus2",
                             protocol: "http",
-                            nexusUrl: "192.168.1.176:8081",
+                            nexusUrl: "192.168.1.176:8081/repository/maven-releases/",
                             groupId: pom.groupId,
                             version: pom.version,
                             repository: "repomvndevops",
