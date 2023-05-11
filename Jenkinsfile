@@ -35,7 +35,7 @@ pipeline {
                         nexusArtifactUploader(
                             nexusVersion: "nexus2",
                             protocol: "http",
-                            nexusUrl: "192.168.1.176:8081/repository/maven-releases/",
+                            nexusUrl: "192.168.1.176:8081/repository/devops/",
                             groupId: pom.groupId,
                             version: pom.version,
                             repository: "repomvndevops",
